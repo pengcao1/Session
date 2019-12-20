@@ -33,3 +33,6 @@
     #ifdef __APPLE__
     #include <sys/types.h>
     #endif
+
+# build
+![make](./image/makebsdiff.png)
