@@ -1,0 +1,6 @@
+<resources>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="seek_bar_height">16dp</dimen>
+    <dimen name="btn_height">48dp</dimen>
+    <dimen name="txt_height">48dp</dimen>
+</resources>

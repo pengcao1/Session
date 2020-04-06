@@ -1,13 +1,11 @@
-package com.cp.rxjava;
+package com.cp.rxjava.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
@@ -16,18 +14,18 @@ import io.reactivex.schedulers.Schedulers;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.cp.rxjava.R;
+import com.cp.rxjava.RecyclerAdapter;
 import com.cp.rxjava.models.Post;
 import com.cp.rxjava.requests.ServiceGenerator;
-import com.cp.rxjava.activity.BaseActivity;
 
 import java.util.List;
 import java.util.Random;
 
-public class MainActivity extends BaseActivity {
-    private static final String TAG = MainActivity.class.getSimpleName();
+public class MainActivityRecycleView extends BaseActivity {
+    private static final String TAG = MainActivityRecycleView.class.getSimpleName();
     private RecyclerView recyclerView;
 
-    private CompositeDisposable disposables = new CompositeDisposable();
     private RecyclerAdapter adapter;
 
     @Override
@@ -45,35 +43,37 @@ public class MainActivity extends BaseActivity {
                 })
                 .flatMap((Function<Post, ObservableSource<Post>>) post -> getCommentsObservable(post))
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Post>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
+                .subscribe(getObserver());
+    }
 
-                    }
+    private Consumer<Post> getConsumer() {
+        return post -> updatePost(post);
+    }
 
-                    @Override
-                    public void onNext(Post post) {
-                        Log.e(TAG, "onNext: id=" + post.getId());
-                        updatePost(post);
-                        loading(post.getTitle());
-                    }
+    private Observer<Post> getObserver() {
+        return new Observer<Post>() {
+            @Override
+            public void onSubscribe(Disposable d) {
 
-                    @Override
-                    public void onError(Throwable e) {
+            }
 
-                    }
+            @Override
+            public void onNext(Post post) {
+                Log.e(TAG, "onNext: id=" + post.getId());
+                updatePost(post);
+                loading(post.getTitle());
+            }
 
-                    @Override
-                    public void onComplete() {
-                        loaded();
-                    }
-                });
+            @Override
+            public void onError(Throwable e) {
+                loaded();
+            }
 
-
-//        getPostObservable()
-//                .flatMap((Function<Post, ObservableSource<Post>>) post -> getCommentsObservable(post))
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(post -> updatePost(post));
+            @Override
+            public void onComplete() {
+                loaded();
+            }
+        };
     }
 
     private void updatePost(Post post) {
@@ -114,6 +114,5 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        disposables.clear();
     }
 }

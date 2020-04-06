@@ -37,6 +37,7 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:$rootProject.ext.lifecycle_version"
 
     // Annotation processor
+    implementation 'com.google.android.material:material:1.0.0'
     annotationProcessor "androidx.lifecycle:lifecycle-compiler:$rootProject.ext.lifecycle_version"
     // alternately - if using Java8, use the following instead of lifecycle-compiler
     implementation "androidx.lifecycle:lifecycle-common-java8:$rootProject.ext.lifecycle_version"
