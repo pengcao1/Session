@@ -20,6 +20,7 @@ import com.cp.rxjava.R;
 public class MainActivityInteger extends AppCompatActivity {
     private static final String TAG = MainActivityInteger.class.getSimpleName();
     private static final int UNIT_SLEEP = 5;
+    private static final int EVENT_COUNT = 8;
     private TextView mTextView;
     private SeekBar mSeekBar;
 
@@ -56,15 +57,10 @@ public class MainActivityInteger extends AppCompatActivity {
 
     public static Observable<String> getObservable() {
         return Observable.create((ObservableOnSubscribe<Integer>) emitter -> {
-            emitter.onNext(1);
-            Thread.sleep(UNIT_SLEEP * 1000);
-            emitter.onNext(2);
-            Thread.sleep(UNIT_SLEEP * 1000);
-            emitter.onNext(3);
-            Thread.sleep(UNIT_SLEEP * 1000);
-            emitter.onNext(4);
-            Thread.sleep(UNIT_SLEEP * 1000);
-            emitter.onNext(5);
+            for (int i = 0; i < EVENT_COUNT; i++) {
+                emitter.onNext(i);
+                Thread.sleep(UNIT_SLEEP * 1000);
+            }
             emitter.onComplete();
         }).map(i -> i + ">" + Thread.currentThread().getName());
     }
@@ -78,8 +74,6 @@ public class MainActivityInteger extends AppCompatActivity {
 
             @Override
             public void onNext(String s) {
-                Log.e(TAG, "onNext: Thread.currentThread().getName(): " + Thread.currentThread().getName());
-                Log.e(TAG, "onNext: " + s);
                 mTextView.setText(s);
             }
 
@@ -90,10 +84,7 @@ public class MainActivityInteger extends AppCompatActivity {
 
             @Override
             public void onComplete() {
-                Log.e(TAG, "onNext: Thread.currentThread().getName(): " + Thread.currentThread().getName());
-                Log.e(TAG, "onComplete: ");
                 mTextView.setText("completed" + ":" + Thread.currentThread().getName());
-
             }
         };
     }

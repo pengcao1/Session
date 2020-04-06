@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import com.cp.rxjava.holder.PostViewHolder;
 import com.cp.rxjava.models.Post;
 
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 

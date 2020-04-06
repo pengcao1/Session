@@ -37,10 +37,7 @@ public class MainActivityRecycleView extends BaseActivity {
         initRecyclerView();
 
         getPostObservable()
-                .filter(post -> {
-                    Log.e(TAG, "filter id =: " + post.getId());
-                    return post.getId() % 2 == 0;
-                })
+                .filter(post -> post.getId() < 7)
                 .flatMap((Function<Post, ObservableSource<Post>>) post -> getCommentsObservable(post))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(getObserver());
@@ -97,8 +94,8 @@ public class MainActivityRecycleView extends BaseActivity {
                 .getComments(post.getId())
                 .map(comments -> {
                     int delay = ((new Random()).nextInt(10) + 1) * 1000;
-                    Thread.sleep(delay);
                     Log.d(TAG, "apply: sleeping thread " + Thread.currentThread().getName() + " for " + delay + "ms");
+                    Thread.sleep(delay);
                     Log.e(TAG, "getCommentsObservable: post id=" + post.getId());
                     post.setComments(comments);
                     return post;
