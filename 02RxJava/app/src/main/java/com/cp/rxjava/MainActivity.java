@@ -18,11 +18,12 @@ import android.util.Log;
 
 import com.cp.rxjava.models.Post;
 import com.cp.rxjava.requests.ServiceGenerator;
+import com.cp.rxjava.activity.BaseActivity;
 
 import java.util.List;
 import java.util.Random;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
     private RecyclerView recyclerView;
 
@@ -38,6 +39,10 @@ public class MainActivity extends AppCompatActivity {
         initRecyclerView();
 
         getPostObservable()
+                .filter(post -> {
+                    Log.e(TAG, "filter id =: " + post.getId());
+                    return post.getId() % 2 == 0;
+                })
                 .flatMap((Function<Post, ObservableSource<Post>>) post -> getCommentsObservable(post))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Post>() {
@@ -48,7 +53,9 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onNext(Post post) {
+                        Log.e(TAG, "onNext: id=" + post.getId());
                         updatePost(post);
+                        loading(post.getTitle());
                     }
 
                     @Override
@@ -58,15 +65,15 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onComplete() {
-
+                        loaded();
                     }
                 });
 
 
-        getPostObservable()
-                .flatMap((Function<Post, ObservableSource<Post>>) post -> getCommentsObservable(post))
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(post -> updatePost(post));
+//        getPostObservable()
+//                .flatMap((Function<Post, ObservableSource<Post>>) post -> getCommentsObservable(post))
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(post -> updatePost(post));
     }
 
     private void updatePost(Post post) {
@@ -92,6 +99,7 @@ public class MainActivity extends AppCompatActivity {
                     int delay = ((new Random()).nextInt(10) + 1) * 1000;
                     Thread.sleep(delay);
                     Log.d(TAG, "apply: sleeping thread " + Thread.currentThread().getName() + " for " + delay + "ms");
+                    Log.e(TAG, "getCommentsObservable: post id=" + post.getId());
                     post.setComments(comments);
                     return post;
                 }).subscribeOn(Schedulers.io());
