@@ -28,7 +28,7 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void startRecycleView() {
-        startActivity(MainActivityRecycleView.class);
+        startActivity(ActivityGetNetworkData.class);
     }
 
     public void startIntegerActivity() {

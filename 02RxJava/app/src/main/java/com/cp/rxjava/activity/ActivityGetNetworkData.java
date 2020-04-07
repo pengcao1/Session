@@ -22,8 +22,8 @@ import com.cp.rxjava.requests.ServiceGenerator;
 import java.util.List;
 import java.util.Random;
 
-public class MainActivityRecycleView extends BaseActivity {
-    private static final String TAG = MainActivityRecycleView.class.getSimpleName();
+public class ActivityGetNetworkData extends BaseActivity {
+    private static final String TAG = ActivityGetNetworkData.class.getSimpleName();
     private RecyclerView recyclerView;
 
     private RecyclerAdapter adapter;
