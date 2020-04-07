@@ -45,6 +45,10 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
         startActivity(ActivityThreadSchedule.class);
     }
 
+    public void startInternal(View view) {
+        startActivity(ActivityInterval.class);
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();

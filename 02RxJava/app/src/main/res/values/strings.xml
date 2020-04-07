@@ -4,4 +4,6 @@
     <string name="str_start_recycleView">Start Recycle View</string>
     <string name="start_integer">Start Integer</string>
     <string name="start_thread_schedule">Start Thread Schedule</string>
+    <string name="start_internal">Start Internal</string>
+    <string name="handler">Handler</string>
 </resources>
