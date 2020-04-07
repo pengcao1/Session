@@ -1,7 +1,6 @@
 package com.cp.rxjava.activity;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -56,6 +55,14 @@ public class MainActivityInteger extends AppCompatActivity {
 
 
     public static Observable<String> getObservable() {
+
+//        Observable.interval(2, TimeUnit.SECONDS).map(new Function<Long, Integer>() {
+//            @Override
+//            public Integer apply(Long aLong) throws Exception {
+//                return 1;
+//            }
+//        }).map(i -> i + ">" + Thread.currentThread().getName());
+
         return Observable.create((ObservableOnSubscribe<Integer>) emitter -> {
             for (int i = 0; i < EVENT_COUNT; i++) {
                 emitter.onNext(i);

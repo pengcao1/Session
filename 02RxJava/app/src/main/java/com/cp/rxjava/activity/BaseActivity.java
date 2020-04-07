@@ -25,7 +25,6 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
         btnStartInteger = findViewById(R.id.btn_start_integer);
         btnStartInteger.setOnClickListener(this);
         btnStartRecycle.setOnClickListener(this);
-
     }
 
     public void startRecycleView() {
@@ -40,6 +39,10 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
         Intent intent = new Intent();
         intent.setClass(this, activityName);
         startActivity(intent);
+    }
+
+    public void startThreadSchedule(View view) {
+        startActivity(ActivityThreadSchedule.class);
     }
 
     @Override
