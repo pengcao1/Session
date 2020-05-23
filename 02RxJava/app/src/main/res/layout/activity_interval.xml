@@ -27,13 +27,24 @@
         app:layout_constraintTop_toBottomOf="@+id/textViewInterval" />
 
     <Button
-        android:onClick="startHandler"
         android:id="@+id/buttonHandler"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="@string/handler"
+        android:onClick="startHandler"
+        android:text="@string/handler_start"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/seekBarInterval" />
+
+    <!--    <Button-->
+    <!--        android:id="@+id/buttonHandlerStop"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginTop="20dp"-->
+    <!--        android:onClick="stopHandler"-->
+    <!--        android:text="@string/handler_start"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/buttonHandler" />-->
 </androidx.constraintlayout.widget.ConstraintLayout>

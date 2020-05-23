@@ -31,6 +31,8 @@ public class ActivityInterval extends AppCompatActivity {
     private static final int UPDATE_UI = 1;
     private static final String DATA_FROM_HANDLER = "data_from_handler";
     private Handler mHandler;
+    HandlerThread handlerThread = new HandlerThread(TAG);
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +41,7 @@ public class ActivityInterval extends AppCompatActivity {
         mSeekBar = findViewById(R.id.seekBarInterval);
         mTextView = findViewById(R.id.textViewInterval);
         bindSeekBarWithTextView();
-        Observable.interval(3, TimeUnit.SECONDS)
+        Observable.interval(1, TimeUnit.SECONDS)
                 .doOnNext(new Consumer<Long>() {
                     @Override
                     public void accept(Long aLong) throws Exception {
@@ -50,7 +52,7 @@ public class ActivityInterval extends AppCompatActivity {
                     @Override
                     public void accept(Long aLong) throws Exception {
                         Log.e(TAG, "subscribe accept: " + aLong);
-                        mTextView.setText("From Interval");
+                        mTextView.setText("From Interval:" + aLong);
                         mTextView.setTextColor(aLong % 2 == 0 ? Color.RED : Color.BLACK);
                         mTextView.setTextSize(aLong % 2 == 0 ? LARGE_SIZE : SMALL_SIZE);
                     }
@@ -91,7 +93,6 @@ public class ActivityInterval extends AppCompatActivity {
     }
 
     private void createHandlerThread() {
-        HandlerThread handlerThread = new HandlerThread(TAG);
         handlerThread.start();
         mHandler = new Handler(handlerThread.getLooper()) {
 
@@ -102,7 +103,7 @@ public class ActivityInterval extends AppCompatActivity {
                     @Override
                     public void run() {
                         int date = msg.getData().getInt(DATA_FROM_HANDLER, 1);
-                        mTextView.setText("From Handler..");
+                        mTextView.setText("From Handler.. +" + date);
                         try {
                             Thread.sleep(3 * 1000);
                         } catch (InterruptedException e) {
@@ -119,4 +120,5 @@ public class ActivityInterval extends AppCompatActivity {
             }
         };
     }
+
 }

@@ -37,7 +37,10 @@ public class ActivityGetNetworkData extends BaseActivity {
         initRecyclerView();
 
         getPostObservable()
-                .filter(post -> post.getId() < 7)
+                .filter(post -> {
+                    Log.e(TAG, "onCreate: " + post.getId());
+                    return post.getId() < 7;
+                })
                 .flatMap((Function<Post, ObservableSource<Post>>) post -> getCommentsObservable(post))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(getObserver());
@@ -86,7 +89,7 @@ public class ActivityGetNetworkData extends BaseActivity {
                 .flatMap((Function<List<Post>, ObservableSource<Post>>) posts -> {
                     adapter.setPosts(posts);
                     return Observable.fromIterable(posts).subscribeOn(Schedulers.io());
-                });
+                }).observeOn(AndroidSchedulers.mainThread());
     }
 
     private Observable<Post> getCommentsObservable(final Post post) {
